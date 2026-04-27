@@ -3,7 +3,7 @@ Heartbeat sending logic.
 """
 
 from pymavlink import mavutil
-from modules.common.modules.logger import logger
+from ..common.modules.logger import logger
 
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
