@@ -24,7 +24,12 @@ class HeartbeatSender:
         """
         Falliable create (instantiation) method to create a HeartbeatSender object.
         """
-        pass  # Create a HeartbeatSender object
+        
+        if connection is None:
+            heartbeat_sender_logger.error("HeartbeatSender creation failed. No connection provided (Connection is None).", True)
+            return False, None
+
+        return True, cls(cls.__private_key, connection, heartbeat_sender_logger)
 
     def __init__(
         self,
