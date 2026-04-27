@@ -3,7 +3,7 @@ Heartbeat sending logic.
 """
 
 from pymavlink import mavutil
-
+from modules.common.modules.logger import logger
 
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
@@ -19,7 +19,7 @@ class HeartbeatSender:
     def create(
         cls,
         connection: mavutil.mavfile,
-        args,  # Put your own arguments here
+        heartbeat_sender_logger: logger.Logger 
     ) -> "tuple[True, HeartbeatSender] | tuple[False, None]":
         """
         Falliable create (instantiation) method to create a HeartbeatSender object.
