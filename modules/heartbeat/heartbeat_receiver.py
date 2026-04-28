@@ -56,7 +56,7 @@ class HeartbeatReceiver:
         self.__current_state = DISCONNECTED
         self.__missed_heartbeat_count = 0
 
-    def run(self, timeout_heartbeat_period):
+    def run(self):
         """
         Attempt to recieve a heartbeat message.
         If disconnected for over a threshold number of periods,
