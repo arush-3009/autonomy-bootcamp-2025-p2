@@ -65,6 +65,8 @@ class TelemetryData:  # pylint: disable=too-many-instance-attributes
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
+TELEMETRY_TIMEOUT = 1
+
 class Telemetry:
     """
     Telemetry class to read position and attitude (orientation).
@@ -73,40 +75,77 @@ class Telemetry:
     __private_key = object()
 
     @classmethod
-    def create(
-        cls,
-        connection: mavutil.mavfile,
-        args,  # Put your own arguments here
-        local_logger: logger.Logger,
-    ):
+    def create(cls, connection: mavutil.mavfile, local_logger: logger.Logger):
         """
-        Falliable create (instantiation) method to create a Telemetry object.
+        Fallible create method to create a Telemetry object.
         """
-        pass  # Create a Telemetry object
+        if connection is None:
+            local_logger.error("Failed to create Telemetry. No connection provided.", True)
+            return False, None
 
-    def __init__(
-        self,
-        key: object,
-        connection: mavutil.mavfile,
-        args,  # Put your own arguments here
-        local_logger: logger.Logger,
-    ) -> None:
+        return True, cls(cls.__private_key, connection, local_logger)
+
+    def __init__(self, key: object, connection: mavutil.mavfile, local_logger: logger.Logger) -> None:
         assert key is Telemetry.__private_key, "Use create() method"
 
-        # Do any intializiation here
+        self.__connection = connection
+        self.__logger = local_logger
 
-    def run(
-        self,
-        args,  # Put your own arguments here
-    ):
+    def run(self):
         """
         Receive LOCAL_POSITION_NED and ATTITUDE messages from the drone,
         combining them together to form a single TelemetryData object.
         """
-        # Read MAVLink message LOCAL_POSITION_NED (32)
-        # Read MAVLink message ATTITUDE (30)
-        # Return the most recent of both, and use the most recent message's timestamp
-        pass
+        start_time = time.time()
+
+        try:
+            attitude_msg = self.__connection.recv_match(
+                type="ATTITUDE",
+                blocking=True,
+                timeout=TELEMETRY_TIMEOUT,
+            )
+
+            remaining_time = TELEMETRY_TIMEOUT - (time.time() - start_time)
+            if remaining_time <= 0:
+                self.__logger.warning("Timed out before receiving LOCAL_POSITION_NED", True)
+                return False, None
+
+            position_msg = self.__connection.recv_match(
+                type="LOCAL_POSITION_NED",
+                blocking=True,
+                timeout=remaining_time,
+            )
+
+        except Exception as exception:
+            self.__logger.error(f"Failed while receiving telemetry: {exception}", True)
+            return False, None
+
+        if attitude_msg is None or attitude_msg.get_type() != "ATTITUDE":
+            self.__logger.warning("Did not receive ATTITUDE message in time", True)
+            return False, None
+
+        if position_msg is None or position_msg.get_type() != "LOCAL_POSITION_NED":
+            self.__logger.warning("Did not receive LOCAL_POSITION_NED message in time", True)
+            return False, None
+
+        telemetry_data = TelemetryData(
+            time_since_boot=max(attitude_msg.time_boot_ms, position_msg.time_boot_ms),
+            x=position_msg.x,
+            y=position_msg.y,
+            z=position_msg.z,
+            x_velocity=position_msg.vx,
+            y_velocity=position_msg.vy,
+            z_velocity=position_msg.vz,
+            roll=attitude_msg.roll,
+            pitch=attitude_msg.pitch,
+            yaw=attitude_msg.yaw,
+            roll_speed=attitude_msg.rollspeed,
+            pitch_speed=attitude_msg.pitchspeed,
+            yaw_speed=attitude_msg.yawspeed,
+        )
+
+        self.__logger.info(f"Received telemetry: {telemetry_data}", True)
+        return True, telemetry_data
 
 
 # =================================================================================================
