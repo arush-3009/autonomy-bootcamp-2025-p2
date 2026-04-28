@@ -76,6 +76,12 @@ class Command:  # pylint: disable=too-many-instance-attributes
         self.__y_velocity_sum = 0.0
         self.__z_velocity_sum = 0.0
 
+    def __normalize_angle_degrees(self, angle: float) -> float:
+        """
+        Normalize angle to [-180, 180].
+        """
+        return (angle + 180) % 360 - 180
+
 
     def run(
         self,
