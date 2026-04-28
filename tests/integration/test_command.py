@@ -4,6 +4,7 @@ Test the command worker with a mocked drone.
 
 import math
 import multiprocessing as mp
+import queue
 import subprocess
 import threading
 import time
@@ -19,7 +20,6 @@ from modules.telemetry import telemetry
 from utilities.workers import queue_proxy_wrapper
 from utilities.workers import worker_controller
 
-import queue
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.command_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -67,19 +67,20 @@ def stop(controller: worker_controller.WorkerController) -> None:
 def read_queue(
     output_queue: queue_proxy_wrapper.QueueProxyWrapper,
     controller: worker_controller.WorkerController,
-    main_logger: logger.Logger
+    main_logger: logger.Logger,
 ) -> None:
     """
     Read and print the output queue.
     """
     while not controller.is_exit_requested():
-        
+
         try:
-            
+
             value = output_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
         except queue.Empty:
             continue
         main_logger.info(str(value), True)
+
 
 def put_queue(
     input_queue: queue_proxy_wrapper.QueueProxyWrapper,
@@ -243,7 +244,9 @@ def main() -> int:
 
     threading.Thread(target=put_queue, args=(input_queue, path, controller), daemon=True).start()
 
-    threading.Thread(target=read_queue, args=(output_queue, controller, main_logger), daemon=True).start()
+    threading.Thread(
+        target=read_queue, args=(output_queue, controller, main_logger), daemon=True
+    ).start()
 
     command_worker.command_worker(
         connection=connection,
@@ -263,7 +266,7 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
-    
+
     time.sleep(1)
 
     result_main = main()

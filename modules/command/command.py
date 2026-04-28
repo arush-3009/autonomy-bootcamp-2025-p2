@@ -30,6 +30,7 @@ Z_SPEED = 1
 TURNING_SPEED = 5
 RELATIVE = 1
 
+
 class Command:  # pylint: disable=too-many-instance-attributes
     """
     Command class to make a decision based on recieved telemetry,
@@ -44,7 +45,7 @@ class Command:  # pylint: disable=too-many-instance-attributes
         connection: mavutil.mavfile,
         target: Position,
         local_logger: logger.Logger,
-    ):
+    ) -> "tuple[bool, Command | None]":
         """
         Falliable create (instantiation) method to create a Command object.
         """
@@ -82,18 +83,17 @@ class Command:  # pylint: disable=too-many-instance-attributes
         """
         return (angle + 180) % 360 - 180
 
-
-    def run(self, telemetry_data: telemetry.TelemetryData):
+    def run(self, telemetry_data: telemetry.TelemetryData) -> "tuple[bool, str | None]":
         """
         Make a decision based on received telemetry data.
         """
-        
+
         if telemetry_data is None:
             self.__logger.warning("No telemetry data received", True)
             return False, None
-        
+
         # Log average velocity for this trip so far
-        
+
         self.__velocity_count += 1
         self.__x_velocity_sum += telemetry_data.x_velocity or 0.0
         self.__y_velocity_sum += telemetry_data.y_velocity or 0.0
@@ -114,7 +114,7 @@ class Command:  # pylint: disable=too-many-instance-attributes
         # Adjust direction (yaw) using MAV_CMD_CONDITION_YAW (115). Must use relative angle to current state
         # String to return to main: "CHANGING_YAW: {degree you changed it by in range [-180, 180]}"
         # Positive angle is counter-clockwise as in a right handed system
-        
+
         # altitude correction
         delta_z = self.__target.z - telemetry_data.z
 
@@ -148,15 +148,24 @@ class Command:  # pylint: disable=too-many-instance-attributes
         delta_yaw = self.__normalize_angle_degrees(target_angle_degrees - current_yaw_degrees)
 
         if abs(delta_yaw) > ANGLE_TOLERANCE:
-            self.__connection.mav.command_long_send(1, 0,
-                                                    mavutil.mavlink.MAV_CMD_CONDITION_YAW,
-                                                    0, delta_yaw, TURNING_SPEED, 0, RELATIVE,
-                                                    0, 0, 0)
+            self.__connection.mav.command_long_send(
+                1,
+                0,
+                mavutil.mavlink.MAV_CMD_CONDITION_YAW,
+                0,
+                delta_yaw,
+                TURNING_SPEED,
+                0,
+                RELATIVE,
+                0,
+                0,
+                0,
+            )
 
             output = f"CHANGE_YAW: {delta_yaw}"
             self.__logger.info(output, True)
             return True, output
-        
+
         return True, None
 
 

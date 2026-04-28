@@ -3,8 +3,10 @@ Test the heartbeat reciever worker with a mocked drone.
 """
 
 import multiprocessing as mp
+import queue
 import subprocess
 import threading
+import time
 
 from pymavlink import mavutil
 
@@ -15,7 +17,6 @@ from modules.heartbeat import heartbeat_receiver_worker
 from utilities.workers import queue_proxy_wrapper
 from utilities.workers import worker_controller
 
-import queue, time
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.heartbeat_receiver_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -51,9 +52,7 @@ def start_drone() -> None:
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
-def stop(
-    controller: worker_controller.WorkerController
-) -> None:
+def stop(controller: worker_controller.WorkerController) -> None:
     """
     Stop the workers.
     """
@@ -75,6 +74,7 @@ def read_queue(
             continue
 
         main_logger.info(str(value), True)
+
 
 # =================================================================================================
 #                            ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
@@ -126,11 +126,10 @@ def main() -> int:
 
     # Create a multiprocess manager for synchronized queues
     mp_manager = mp.Manager()
-    
+
     # Create your queues
-    output_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager,QUEUE_MAX_SIZE)
-    
-    
+    output_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
+
     # Just set a timer to stop the worker after a while, since the worker infinite loops
     threading.Timer(
         HEARTBEAT_PERIOD * (NUM_TRIALS * 2 + DISCONNECT_THRESHOLD + NUM_DISCONNECTS + 2),
@@ -140,9 +139,13 @@ def main() -> int:
 
     # Read the main queue (worker outputs)
     # Read the main queue (worker outputs)
-    threading.Thread(target=read_queue, args=(output_queue, controller, main_logger), daemon=True).start()
+    threading.Thread(
+        target=read_queue, args=(output_queue, controller, main_logger), daemon=True
+    ).start()
 
-    heartbeat_receiver_worker.heartbeat_receiver_worker(connection=connection, output_queue=output_queue, controller=controller)
+    heartbeat_receiver_worker.heartbeat_receiver_worker(
+        connection=connection, output_queue=output_queue, controller=controller
+    )
     # =============================================================================================
     #                          ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
     # =============================================================================================
@@ -154,7 +157,7 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
-    
+
     time.sleep(1)
 
     result_main = main()

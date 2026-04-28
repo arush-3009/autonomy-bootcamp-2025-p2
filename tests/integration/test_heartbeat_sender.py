@@ -5,6 +5,7 @@ Test the heartbeat sender worker with a mocked drone.
 import multiprocessing as mp
 import subprocess
 import threading
+import time
 
 from pymavlink import mavutil
 
@@ -14,7 +15,6 @@ from modules.common.modules.read_yaml import read_yaml
 from modules.heartbeat import heartbeat_sender_worker
 from utilities.workers import worker_controller
 
-import time
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.heartbeat_sender_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -45,9 +45,7 @@ def start_drone() -> None:
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
-def stop(
-    controller: worker_controller.WorkerController
-) -> None:
+def stop(controller: worker_controller.WorkerController) -> None:
     """
     Stop the workers.
     """
@@ -95,14 +93,11 @@ def main() -> int:
     # Mock starting a worker, since cannot actually start a new process
     # Create a worker controller for your worker
     controller = worker_controller.WorkerController()
-    
+
     # Just set a timer to stop the worker after a while, since the worker infinite loops
     threading.Timer(STOP_DELAY, stop, (controller,)).start()
 
-
-    heartbeat_sender_worker.heartbeat_sender_worker(
-        connection=connection, controller=controller
-    )
+    heartbeat_sender_worker.heartbeat_sender_worker(connection=connection, controller=controller)
     # =============================================================================================
     #                          ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
     # =============================================================================================
@@ -114,7 +109,7 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
-    
+
     time.sleep(2.5)
 
     result_main = main()

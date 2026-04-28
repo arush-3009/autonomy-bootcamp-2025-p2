@@ -50,9 +50,7 @@ def start_drone() -> None:
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
-def stop(
-    controller: worker_controller.WorkerController
-) -> None:
+def stop(controller: worker_controller.WorkerController) -> None:
     """
     Stop the workers.
     """
@@ -74,6 +72,8 @@ def read_queue(
             continue
 
         main_logger.info(str(value), True)
+
+
 # =================================================================================================
 #                            ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
 # =================================================================================================
@@ -124,19 +124,21 @@ def main() -> int:
 
     # Create a multiprocess manager for synchronized queues
     mp_manager = mp.Manager()
-    
+
     # Create your queues
     output_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
-    
+
     # Just set a timer to stop the worker after a while, since the worker infinite loops
-    threading.Timer(TELEMETRY_PERIOD * NUM_TRIALS * 2 + NUM_FAILS,
-                    stop,
-                    (controller,)).start()
+    threading.Timer(TELEMETRY_PERIOD * NUM_TRIALS * 2 + NUM_FAILS, stop, (controller,)).start()
 
     # Read the main queue (worker outputs)
-    threading.Thread(target=read_queue, args=(output_queue, controller, main_logger), daemon=True).start()
+    threading.Thread(
+        target=read_queue, args=(output_queue, controller, main_logger), daemon=True
+    ).start()
 
-    telemetry_worker.telemetry_worker(connection=connection, output_queue=output_queue, controller=controller)
+    telemetry_worker.telemetry_worker(
+        connection=connection, output_queue=output_queue, controller=controller
+    )
     # =============================================================================================
     #                          ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
     # =============================================================================================
@@ -148,7 +150,7 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
-    
+
     time.sleep(1)
 
     result_main = main()

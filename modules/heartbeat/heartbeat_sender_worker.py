@@ -18,9 +18,9 @@ from ..common.modules.logger import logger
 # =================================================================================================
 HEARTBEAT_PERIOD = 1
 
+
 def heartbeat_sender_worker(
-    connection: mavutil.mavfile,
-    controller: worker_controller.WorkerController
+    connection: mavutil.mavfile, controller: worker_controller.WorkerController
 ) -> None:
     """
     Worker process.
@@ -50,17 +50,18 @@ def heartbeat_sender_worker(
     # Instantiate class object (heartbeat_sender.HeartbeatSender)
 
     # Main loop: do work.
-    result, heartbeat_sender_obj = heartbeat_sender.HeartbeatSender.create(connection=connection, 
-                                                                           heartbeat_sender_logger=local_logger)
-    
+    result, heartbeat_sender_obj = heartbeat_sender.HeartbeatSender.create(
+        connection=connection, heartbeat_sender_logger=local_logger
+    )
+
     if not result:
         local_logger.error("Failed to create HeartbeatSender", True)
         return
-    
+
     assert heartbeat_sender_obj is not None
-    
+
     while not controller.is_exit_requested():
-        
+
         controller.check_pause()
         heartbeat_sender_obj.run()
         time.sleep(HEARTBEAT_PERIOD)

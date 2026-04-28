@@ -67,6 +67,7 @@ class TelemetryData:  # pylint: disable=too-many-instance-attributes
 # =================================================================================================
 TELEMETRY_TIMEOUT = 1
 
+
 class Telemetry:
     """
     Telemetry class to read position and attitude (orientation).
@@ -75,7 +76,9 @@ class Telemetry:
     __private_key = object()
 
     @classmethod
-    def create(cls, connection: mavutil.mavfile, local_logger: logger.Logger):
+    def create(
+        cls, connection: mavutil.mavfile, local_logger: logger.Logger
+    ) -> "tuple[bool, Telemetry | None]":
         """
         Fallible create method to create a Telemetry object.
         """
@@ -85,13 +88,15 @@ class Telemetry:
 
         return True, cls(cls.__private_key, connection, local_logger)
 
-    def __init__(self, key: object, connection: mavutil.mavfile, local_logger: logger.Logger) -> None:
+    def __init__(
+        self, key: object, connection: mavutil.mavfile, local_logger: logger.Logger
+    ) -> None:
         assert key is Telemetry.__private_key, "Use create() method"
 
         self.__connection = connection
         self.__logger = local_logger
 
-    def run(self):
+    def run(self) -> "tuple[bool, TelemetryData | None]":
         """
         Receive LOCAL_POSITION_NED and ATTITUDE messages from the drone,
         combining them together to form a single TelemetryData object.
@@ -115,7 +120,7 @@ class Telemetry:
                 blocking=True,
                 timeout=remaining_time,
             )
-
+        # pylint: disable-next=broad-exception-caught
         except Exception as exception:
             self.__logger.error(f"Failed while receiving telemetry: {exception}", True)
             return False, None

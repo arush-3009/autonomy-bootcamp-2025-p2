@@ -86,7 +86,7 @@ def main() -> int:
 
     # Create a multiprocess manager for synchronized queues
     mp_manager = mp.Manager()
-    
+
     # Create queues
     heartbeat_status_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
     telemetry_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
@@ -101,13 +101,13 @@ def main() -> int:
         input_queues=[],
         output_queues=[],
         controller=controller,
-        local_logger=main_logger
+        local_logger=main_logger,
     )
-    
+
     if not result:
         main_logger.error("Failed to create heartbeat sender worker properties", True)
         return -1
-    
+
     assert heartbeat_sender_properties is not None
 
     # Heartbeat receiver
@@ -118,17 +118,17 @@ def main() -> int:
         input_queues=[],
         output_queues=[heartbeat_status_queue],
         controller=controller,
-        local_logger=main_logger
+        local_logger=main_logger,
     )
-    
+
     if not result:
         main_logger.error("Failed to create heartbeat receiver worker properties", True)
         return -1
-    
+
     assert heartbeat_receiver_properties is not None
 
     # Telemetry
-    
+
     result, telemetry_properties = worker_manager.WorkerProperties.create(
         count=TELEMETRY_COUNT,
         target=telemetry_worker.telemetry_worker,
@@ -136,18 +136,17 @@ def main() -> int:
         input_queues=[],
         output_queues=[telemetry_queue],
         controller=controller,
-        local_logger=main_logger
+        local_logger=main_logger,
     )
-    
+
     if not result:
         main_logger.error("Failed to create telemetry worker properties", True)
         return -1
-    
-    
+
     assert telemetry_properties is not None
 
     # Command
-    
+
     result, command_properties = worker_manager.WorkerProperties.create(
         count=COMMAND_COUNT,
         target=command_worker.command_worker,
@@ -155,74 +154,74 @@ def main() -> int:
         input_queues=[telemetry_queue],
         output_queues=[command_output_queue],
         controller=controller,
-        local_logger=main_logger
+        local_logger=main_logger,
     )
-    
+
     if not result:
         main_logger.error("Failed to create command worker properties", True)
         return -1
-    
-    
+
     assert command_properties is not None
 
     # Create the workers (processes) and obtain their managers
-    
-    result, heartbeat_sender_manager = worker_manager.WorkerManager.create(heartbeat_sender_properties,
-                                                                           main_logger)
-    
-    
+
+    result, heartbeat_sender_manager = worker_manager.WorkerManager.create(
+        heartbeat_sender_properties, main_logger
+    )
+
     if not result:
         main_logger.error("Failed to create heartbeat sender worker manager", True)
         return -1
-    
+
     assert heartbeat_sender_manager is not None
 
-    result, heartbeat_receiver_manager = worker_manager.WorkerManager.create(heartbeat_receiver_properties,
-                                                                             main_logger)
-    
-    
+    result, heartbeat_receiver_manager = worker_manager.WorkerManager.create(
+        heartbeat_receiver_properties, main_logger
+    )
+
     if not result:
         main_logger.error("Failed to create heartbeat receiver worker manager", True)
         return -1
-    
-    
+
     assert heartbeat_receiver_manager is not None
 
-    result, telemetry_manager = worker_manager.WorkerManager.create(telemetry_properties,main_logger)
-    
+    result, telemetry_manager = worker_manager.WorkerManager.create(
+        telemetry_properties, main_logger
+    )
+
     if not result:
         main_logger.error("Failed to create telemetry worker manager", True)
         return -1
-    
+
     assert telemetry_manager is not None
 
     result, command_manager = worker_manager.WorkerManager.create(command_properties, main_logger)
-    
+
     if not result:
         main_logger.error("Failed to create command worker manager", True)
         return -1
-    
+
     assert command_manager is not None
 
     # Start worker processes
-    
+
     heartbeat_sender_manager.start_workers()
-    
+
     heartbeat_receiver_manager.start_workers()
-    
+
     telemetry_manager.start_workers()
-    
+
     command_manager.start_workers()
 
     main_logger.info("Started")
 
     # Main's work: read from all queues that output to main, and log any commands that we make
     # Continue running for 100 seconds or until the drone disconnects
-    
+
     start_time = time.time()
 
     while time.time() - start_time < MAIN_RUN_TIME:
-        
+
         heartbeat_sender_manager.check_and_restart_dead_workers()
         heartbeat_receiver_manager.check_and_restart_dead_workers()
         telemetry_manager.check_and_restart_dead_workers()
@@ -230,12 +229,12 @@ def main() -> int:
 
         try:
             heartbeat_status = heartbeat_status_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
-            
+
             main_logger.info(str(heartbeat_status), True)
 
             if heartbeat_status == "Disconnected":
                 break
-            
+
         except queue.Empty:
             pass
 
@@ -250,7 +249,7 @@ def main() -> int:
     main_logger.info("Requested exit")
 
     # Fill and drain queues from END TO START
-    
+
     command_output_queue.fill_queue_with_sentinel()
     command_output_queue.drain_queue()
 

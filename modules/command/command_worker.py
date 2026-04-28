@@ -4,6 +4,7 @@ Command worker to make decisions based on Telemetry Data.
 
 import os
 import pathlib
+import queue
 
 from pymavlink import mavutil
 
@@ -12,7 +13,6 @@ from utilities.workers import worker_controller
 from . import command
 from ..common.modules.logger import logger
 
-import queue
 
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
