@@ -166,23 +166,107 @@ def main() -> int:
     assert command_properties is not None
 
     # Create the workers (processes) and obtain their managers
+    
+    result, heartbeat_sender_manager = worker_manager.WorkerManager.create(heartbeat_sender_properties,
+                                                                           main_logger)
+    
+    
+    if not result:
+        main_logger.error("Failed to create heartbeat sender worker manager", True)
+        return -1
+    
+    assert heartbeat_sender_manager is not None
+
+    result, heartbeat_receiver_manager = worker_manager.WorkerManager.create(heartbeat_receiver_properties,
+                                                                             main_logger)
+    
+    
+    if not result:
+        main_logger.error("Failed to create heartbeat receiver worker manager", True)
+        return -1
+    
+    
+    assert heartbeat_receiver_manager is not None
+
+    result, telemetry_manager = worker_manager.WorkerManager.create(telemetry_properties,main_logger)
+    
+    if not result:
+        main_logger.error("Failed to create telemetry worker manager", True)
+        return -1
+    
+    assert telemetry_manager is not None
+
+    result, command_manager = worker_manager.WorkerManager.create(command_properties, main_logger)
+    
+    if not result:
+        main_logger.error("Failed to create command worker manager", True)
+        return -1
+    
+    assert command_manager is not None
 
     # Start worker processes
+    
+    heartbeat_sender_manager.start_workers()
+    
+    heartbeat_receiver_manager.start_workers()
+    
+    telemetry_manager.start_workers()
+    
+    command_manager.start_workers()
 
     main_logger.info("Started")
 
     # Main's work: read from all queues that output to main, and log any commands that we make
     # Continue running for 100 seconds or until the drone disconnects
+    
+    start_time = time.time()
+
+    while time.time() - start_time < MAIN_RUN_TIME:
+        
+        heartbeat_sender_manager.check_and_restart_dead_workers()
+        heartbeat_receiver_manager.check_and_restart_dead_workers()
+        telemetry_manager.check_and_restart_dead_workers()
+        command_manager.check_and_restart_dead_workers()
+
+        try:
+            heartbeat_status = heartbeat_status_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
+            
+            main_logger.info(str(heartbeat_status), True)
+
+            if heartbeat_status == "Disconnected":
+                break
+            
+        except queue.Empty:
+            pass
+
+        try:
+            command_output = command_output_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
+            main_logger.info(str(command_output), True)
+        except queue.Empty:
+            pass
 
     # Stop the processes
-
+    controller.request_exit()
     main_logger.info("Requested exit")
 
     # Fill and drain queues from END TO START
+    
+    command_output_queue.fill_queue_with_sentinel()
+    command_output_queue.drain_queue()
+
+    telemetry_queue.fill_queue_with_sentinel()
+    telemetry_queue.drain_queue()
+
+    heartbeat_status_queue.fill_queue_with_sentinel()
+    heartbeat_status_queue.drain_queue()
 
     main_logger.info("Queues cleared")
 
     # Clean up worker processes
+    heartbeat_sender_manager.join_workers()
+    heartbeat_receiver_manager.join_workers()
+    telemetry_manager.join_workers()
+    command_manager.join_workers()
 
     main_logger.info("Stopped")
 
