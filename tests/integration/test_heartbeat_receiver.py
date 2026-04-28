@@ -15,7 +15,7 @@ from modules.heartbeat import heartbeat_receiver_worker
 from utilities.workers import queue_proxy_wrapper
 from utilities.workers import worker_controller
 
-import queue
+import queue, time
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.heartbeat_receiver_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -154,6 +154,8 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
+    
+    time.sleep(1)
 
     result_main = main()
     if result_main < 0:
