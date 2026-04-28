@@ -57,6 +57,15 @@ def telemetry_worker(connection: mavutil.mavfile,
     assert telemetry_obj is not None
 
     # Main loop: do work.
+    while not controller.is_exit_requested():
+        controller.check_pause()
+
+        result, telemetry_data = telemetry_obj.run()
+
+        if not result:
+            continue
+
+        output_queue.queue.put(telemetry_data)
 
 
 # =================================================================================================
