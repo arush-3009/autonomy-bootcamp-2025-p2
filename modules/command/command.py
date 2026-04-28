@@ -63,12 +63,19 @@ class Command:  # pylint: disable=too-many-instance-attributes
         key: object,
         connection: mavutil.mavfile,
         target: Position,
-        args,  # Put your own arguments here
         local_logger: logger.Logger,
     ) -> None:
         assert key is Command.__private_key, "Use create() method"
 
-        # Do any intializiation here
+        self.__connection = connection
+        self.__target = target
+        self.__logger = local_logger
+
+        self.__velocity_count = 0
+        self.__x_velocity_sum = 0.0
+        self.__y_velocity_sum = 0.0
+        self.__z_velocity_sum = 0.0
+
 
     def run(
         self,
