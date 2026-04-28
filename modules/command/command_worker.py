@@ -63,6 +63,21 @@ def command_worker(
     assert command_obj is not None
 
     # Main loop: do work.
+    while not controller.is_exit_requested():
+        controller.check_pause()
+
+        try:
+            telemetry_data = input_queue.queue.get(timeout=0.1)
+        except queue.Empty:
+            continue
+
+        result, output = command_obj.run(telemetry_data)
+
+        if not result:
+            continue
+
+        if output is not None:
+            output_queue.queue.put(output)
 
 
 # =================================================================================================
