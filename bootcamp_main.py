@@ -94,6 +94,21 @@ def main() -> int:
 
     # Create worker properties for each worker type (what inputs it takes, how many workers)
     # Heartbeat sender
+    result, heartbeat_sender_properties = worker_manager.WorkerProperties.create(
+        count=HEARTBEAT_SENDER_COUNT,
+        target=heartbeat_sender_worker.heartbeat_sender_worker,
+        work_arguments=(connection,),
+        input_queues=[],
+        output_queues=[],
+        controller=controller,
+        local_logger=main_logger,
+    )
+    
+    if not result:
+        main_logger.error("Failed to create heartbeat sender worker properties", True)
+        return -1
+    
+    assert heartbeat_sender_properties is not None
 
     # Heartbeat receiver
 
