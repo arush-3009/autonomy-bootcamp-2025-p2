@@ -148,6 +148,8 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
+    
+    time.sleep(1)
 
     result_main = main()
     if result_main < 0:
