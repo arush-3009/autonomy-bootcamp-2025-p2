@@ -14,6 +14,7 @@ from modules.common.modules.read_yaml import read_yaml
 from modules.heartbeat import heartbeat_sender_worker
 from utilities.workers import worker_controller
 
+import time
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.heartbeat_sender_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -113,6 +114,8 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
+    
+    time.sleep(2.5)
 
     result_main = main()
     if result_main < 0:
