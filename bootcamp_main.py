@@ -30,10 +30,18 @@ CONNECTION_STRING = "tcp:localhost:12345"
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
 # Set queue max sizes (<= 0 for infinity)
+QUEUE_MAX_SIZE = 10
 
 # Set worker counts
+HEARTBEAT_SENDER_COUNT = 1
+HEARTBEAT_RECEIVER_COUNT = 1
+TELEMETRY_COUNT = 1
+COMMAND_COUNT = 1
 
 # Any other constants
+MAIN_RUN_TIME = 100
+TARGET = command.Position(10, 20, 30)
+READ_QUEUE_TIMEOUT = 0.1
 
 # =================================================================================================
 #                            ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
