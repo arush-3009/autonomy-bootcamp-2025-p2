@@ -82,9 +82,11 @@ def main() -> int:
     #                          ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
     # =============================================================================================
     # Create a worker controller
+    controller = worker_controller.WorkerController()
 
     # Create a multiprocess manager for synchronized queues
-
+    mp_manager = mp.Manager()
+    
     # Create queues
 
     # Create worker properties for each worker type (what inputs it takes, how many workers)
