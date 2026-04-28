@@ -82,12 +82,19 @@ def read_queue(
         main_logger.info(str(value), True)
 
 def put_queue(
-    args,  # Add any necessary arguments
+    input_queue: queue_proxy_wrapper.QueueProxyWrapper,
+    path: list[telemetry.TelemetryData],
+    controller: worker_controller.WorkerController,
 ) -> None:
     """
     Place mocked inputs into the input queue periodically with period TELEMETRY_PERIOD.
     """
-    pass  # Add logic to place the mocked inputs into your worker's input queue periodically
+    for item in path:
+        if controller.is_exit_requested():
+            return
+
+        input_queue.queue.put(item)
+        time.sleep(TELEMETRY_PERIOD)
 
 
 # =================================================================================================
@@ -225,17 +232,25 @@ def main() -> int:
         ),
     ]
 
-    # Just set a timer to stop the worker after a while, since the worker infinite loops
-    threading.Timer(TELEMETRY_PERIOD * len(path), stop, (args,)).start()
+    controller = worker_controller.WorkerController()
 
-    # Put items into input queue
-    threading.Thread(target=put_queue, args=(args,)).start()
+    mp_manager = mp.Manager()
 
-    # Read the main queue (worker outputs)
-    threading.Thread(target=read_queue, args=(args, main_logger)).start()
+    input_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
+    output_queue = queue_proxy_wrapper.QueueProxyWrapper(mp_manager, QUEUE_MAX_SIZE)
+
+    threading.Timer(TELEMETRY_PERIOD * len(path), stop, (controller,)).start()
+
+    threading.Thread(target=put_queue, args=(input_queue, path, controller), daemon=True).start()
+
+    threading.Thread(target=read_queue, args=(output_queue, controller, main_logger), daemon=True).start()
 
     command_worker.command_worker(
-        # Place your own arguments here
+        connection=connection,
+        target=TARGET,
+        input_queue=input_queue,
+        output_queue=output_queue,
+        controller=controller,
     )
     # =============================================================================================
     #                          ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
@@ -248,6 +263,8 @@ if __name__ == "__main__":
     # Start drone in another process
     drone_process = mp.Process(target=start_drone)
     drone_process.start()
+    
+    time.sleep(1)
 
     result_main = main()
     if result_main < 0:
