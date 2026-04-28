@@ -18,8 +18,8 @@ from ..common.modules.logger import logger
 # =================================================================================================
 def heartbeat_receiver_worker(
     connection: mavutil.mavfile,
-    args,  # Place your own arguments here
-    # Add other necessary worker arguments here
+    output_queue: queue_proxy_wrapper.QueueProxyWrapper,
+    controller: worker_controller.WorkerController
 ) -> None:
     """
     Worker process.
@@ -47,8 +47,27 @@ def heartbeat_receiver_worker(
     #                          ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
     # =============================================================================================
     # Instantiate class object (heartbeat_receiver.HeartbeatReceiver)
+    res, heartbeat_receiver_obj = heartbeat_receiver.HeartbeatReceiver.create(connection=connection,
+                                                                              local_logger=local_logger)
+    
+    if not res:
+        local_logger.error("Failed to create Heartbeat Receiver", True)
+        return
+    
+    assert heartbeat_receiver_obj is not None
 
     # Main loop: do work.
+    while not controller.is_exit_requested():
+        controller.check_pause()
+        
+        ret, curr_state = heartbeat_receiver_obj.run()
+        
+        if not ret:
+            continue
+        
+        output_queue.queue.put(curr_state)
+        
+            
 
 
 # =================================================================================================

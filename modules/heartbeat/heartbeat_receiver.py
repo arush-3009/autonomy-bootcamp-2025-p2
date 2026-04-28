@@ -43,9 +43,7 @@ class HeartbeatReceiver:
         self,
         key: object,
         connection: mavutil.mavfile,
-        local_logger: logger.Logger,
-        current_state,
-        max_missed_heartbeat_limit
+        local_logger: logger.Logger
     ) -> None:
         assert key is HeartbeatReceiver.__private_key, "Use create() method"
 
