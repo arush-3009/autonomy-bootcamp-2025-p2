@@ -128,6 +128,23 @@ def main() -> int:
     assert heartbeat_receiver_properties is not None
 
     # Telemetry
+    
+    result, telemetry_properties = worker_manager.WorkerProperties.create(
+        count=TELEMETRY_COUNT,
+        target=telemetry_worker.telemetry_worker,
+        work_arguments=(connection,),
+        input_queues=[],
+        output_queues=[telemetry_queue],
+        controller=controller,
+        local_logger=main_logger
+    )
+    
+    if not result:
+        main_logger.error("Failed to create telemetry worker properties", True)
+        return -1
+    
+    
+    assert telemetry_properties is not None
 
     # Command
 
