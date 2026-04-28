@@ -147,6 +147,23 @@ def main() -> int:
     assert telemetry_properties is not None
 
     # Command
+    
+    result, command_properties = worker_manager.WorkerProperties.create(
+        count=COMMAND_COUNT,
+        target=command_worker.command_worker,
+        work_arguments=(connection, TARGET),
+        input_queues=[telemetry_queue],
+        output_queues=[command_output_queue],
+        controller=controller,
+        local_logger=main_logger
+    )
+    
+    if not result:
+        main_logger.error("Failed to create command worker properties", True)
+        return -1
+    
+    
+    assert command_properties is not None
 
     # Create the workers (processes) and obtain their managers
 
