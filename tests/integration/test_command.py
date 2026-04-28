@@ -19,6 +19,7 @@ from modules.telemetry import telemetry
 from utilities.workers import queue_proxy_wrapper
 from utilities.workers import worker_controller
 
+import queue
 
 MOCK_DRONE_MODULE = "tests.integration.mock_drones.command_drone"
 CONNECTION_STRING = "tcp:localhost:12345"
@@ -36,6 +37,9 @@ TURNING_SPEED = 5  # deg/s
 # =================================================================================================
 # Add your own constants here
 
+QUEUE_MAX_SIZE = 50
+READ_QUEUE_TIMEOUT = 0.1
+
 # =================================================================================================
 #                            ↑ BOOTCAMPERS MODIFY ABOVE THIS COMMENT ↑
 # =================================================================================================
@@ -47,30 +51,35 @@ def start_drone() -> None:
     """
     Start the mocked drone.
     """
-    subprocess.run(["python", "-m", MOCK_DRONE_MODULE], shell=True, check=False)
+    subprocess.run(["python", "-m", MOCK_DRONE_MODULE], check=False)
 
 
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
-def stop(
-    args,  # Add any necessary arguments
-) -> None:
+def stop(controller: worker_controller.WorkerController) -> None:
     """
     Stop the workers.
     """
-    pass  # Add logic to stop your worker
+    controller.request_exit()
 
 
 def read_queue(
-    args,  # Add any necessary arguments
-    main_logger: logger.Logger,
+    output_queue: queue_proxy_wrapper.QueueProxyWrapper,
+    controller: worker_controller.WorkerController,
+    main_logger: logger.Logger
 ) -> None:
     """
     Read and print the output queue.
     """
-    pass  # Add logic to read from your worker's output queue and print it using the logger
-
+    while not controller.is_exit_requested():
+        
+        try:
+            
+            value = output_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
+        except queue.Empty:
+            continue
+        main_logger.info(str(value), True)
 
 def put_queue(
     args,  # Add any necessary arguments
