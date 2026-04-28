@@ -24,6 +24,12 @@ class Position:
 # =================================================================================================
 #                            ↓ BOOTCAMPERS MODIFY BELOW THIS COMMENT ↓
 # =================================================================================================
+HEIGHT_TOLERANCE = 0.5
+ANGLE_TOLERANCE = 5
+Z_SPEED = 1
+TURNING_SPEED = 5
+RELATIVE = 1
+
 class Command:  # pylint: disable=too-many-instance-attributes
     """
     Command class to make a decision based on recieved telemetry,
