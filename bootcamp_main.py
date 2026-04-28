@@ -101,7 +101,7 @@ def main() -> int:
         input_queues=[],
         output_queues=[],
         controller=controller,
-        local_logger=main_logger,
+        local_logger=main_logger
     )
     
     if not result:
@@ -111,6 +111,21 @@ def main() -> int:
     assert heartbeat_sender_properties is not None
 
     # Heartbeat receiver
+    result, heartbeat_receiver_properties = worker_manager.WorkerProperties.create(
+        count=HEARTBEAT_RECEIVER_COUNT,
+        target=heartbeat_receiver_worker.heartbeat_receiver_worker,
+        work_arguments=(connection,),
+        input_queues=[],
+        output_queues=[heartbeat_status_queue],
+        controller=controller,
+        local_logger=main_logger
+    )
+    
+    if not result:
+        main_logger.error("Failed to create heartbeat receiver worker properties", True)
+        return -1
+    
+    assert heartbeat_receiver_properties is not None
 
     # Telemetry
 
