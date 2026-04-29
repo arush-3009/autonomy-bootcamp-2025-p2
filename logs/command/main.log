@@ -1,0 +1,28 @@
+00:30:03: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/common/modules/logger/logger_main_setup.py | setup_main_logger | 62] main logger initialized
+00:30:03: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | main | 139] Connected!
+00:30:03: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_ALTITUDE: 1
+00:30:04: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_ALTITUDE: -1
+00:30:07: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 63.434948822922024
+00:30:07: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 90.0
+00:30:08: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 116.56505117707798
+00:30:08: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 45.0
+00:30:09: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 63.434948822921996
+00:30:09: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 90.0
+00:30:10: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 26.565051177077976
+00:30:10: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 45.0
+00:30:11: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 90.0
+00:30:11: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 45.0
+00:30:12: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 90.0
+00:30:12: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: 135.0
+00:30:13: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -26.565051177077976
+00:30:13: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -45.0
+00:30:14: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -90.0
+00:30:14: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -45.0
+00:30:15: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -90.0
+00:30:15: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -135.0
+00:30:16: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -63.434948822921996
+00:30:16: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -90.0
+00:30:17: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -116.56505117707798
+00:30:17: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -45.0
+00:30:18: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -63.43494882292201
+00:30:18: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/test_command.py | read_queue | 82] CHANGE_YAW: -90.0

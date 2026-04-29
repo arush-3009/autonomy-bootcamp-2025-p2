@@ -1,0 +1,13 @@
+00:29:01: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | main | 42] Logger initialized
+00:29:01: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:02: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:03: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:04: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:05: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:14: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:15: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:16: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:17: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:18: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:20: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | send_heartbeats | 59] Drone: Sent a heartbeat
+00:29:21: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/tests/integration/mock_drones/heartbeat_receiver_drone.py | main | 79] Passesd!

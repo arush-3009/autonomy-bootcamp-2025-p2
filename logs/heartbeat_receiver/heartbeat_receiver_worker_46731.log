@@ -1,0 +1,30 @@
+00:29:01: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver_worker.py | heartbeat_receiver_worker | 44] Logger initialized
+00:29:01: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:02: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:03: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:03: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:04: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:04: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:05: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:05: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:06: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:07: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 2.
+00:29:08: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 3.
+00:29:09: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 4.
+00:29:10: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 5.
+00:29:11: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 6.
+00:29:12: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 7.
+00:29:13: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 8.
+00:29:14: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:15: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:15: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:16: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:16: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:17: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:17: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:18: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:18: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:19: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:20: [INFO] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 77] Received Heartbeat
+00:29:21: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 1.
+00:29:22: [WARNING] [/Users/arushhanda/Desktop/warg-bootcamp-task-autonomy/autonomy-bootcamp-2025-p2/modules/heartbeat/heartbeat_receiver.py | run | 81] Missed Heartbeat. Missed Count Now: 2.
