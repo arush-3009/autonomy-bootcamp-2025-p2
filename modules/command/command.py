@@ -134,7 +134,6 @@ class Command:  # pylint: disable=too-many-instance-attributes
             )
 
             output = f"CHANGE_ALTITUDE: {delta_z}"
-            self.__logger.info(output, True)
             return True, output
 
         # yaw correction
@@ -163,7 +162,6 @@ class Command:  # pylint: disable=too-many-instance-attributes
             )
 
             output = f"CHANGE_YAW: {delta_yaw}"
-            self.__logger.info(output, True)
             return True, output
 
         return True, None

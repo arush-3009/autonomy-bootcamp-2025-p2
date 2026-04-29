@@ -235,12 +235,9 @@ def main() -> int:
             if heartbeat_status == "Disconnected":
                 break
 
-        except queue.Empty:
-            pass
-
-        try:
             command_output = command_output_queue.queue.get(timeout=READ_QUEUE_TIMEOUT)
             main_logger.info(str(command_output), True)
+
         except queue.Empty:
             pass
 
@@ -250,14 +247,11 @@ def main() -> int:
 
     # Fill and drain queues from END TO START
 
-    command_output_queue.fill_queue_with_sentinel()
-    command_output_queue.drain_queue()
+    command_output_queue.fill_and_drain_queue()
 
-    telemetry_queue.fill_queue_with_sentinel()
-    telemetry_queue.drain_queue()
+    telemetry_queue.fill_and_drain_queue()
 
-    heartbeat_status_queue.fill_queue_with_sentinel()
-    heartbeat_status_queue.drain_queue()
+    heartbeat_status_queue.fill_and_drain_queue()
 
     main_logger.info("Queues cleared")
 

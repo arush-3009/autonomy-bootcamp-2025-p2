@@ -42,7 +42,7 @@ class HeartbeatSender:
         self.__connection = connection
         self.__heartbeat_sender_logger = heartbeat_sender_logger
 
-    def run(self) -> bool:
+    def run(self) -> None:
         """
         Attempt to send a heartbeat message.
         """
@@ -57,10 +57,9 @@ class HeartbeatSender:
         # pylint: disable-next=broad-exception-caught
         except Exception as e:
             self.__heartbeat_sender_logger.error(f"Failed to send heartbeat message: {e}", True)
-            return False
+            return
 
         self.__heartbeat_sender_logger.info("Heartbeat sent", True)
-        return True
 
 
 # =================================================================================================
