@@ -134,7 +134,7 @@ class Telemetry:
             return False, None
 
         telemetry_data = TelemetryData(
-            time_since_boot=attitude_msg.time_boot_ms,
+            time_since_boot=max(attitude_msg.time_boot_ms, position_msg.time_boot_ms),
             x=position_msg.x,
             y=position_msg.y,
             z=position_msg.z,
