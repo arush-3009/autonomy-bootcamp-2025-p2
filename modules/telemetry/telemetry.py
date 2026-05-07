@@ -102,34 +102,39 @@ class Telemetry:
         combining them together to form a single TelemetryData object.
         """
         start_time = time.time()
+        attitude_msg = None
+        position_msg = None
 
         try:
-            attitude_msg = self.__connection.recv_match(
-                type="ATTITUDE",
-                blocking=True,
-                timeout=TELEMETRY_TIMEOUT,
-            )
+            while attitude_msg is None or position_msg is None:
+                remaining_time = TELEMETRY_TIMEOUT - (time.time() - start_time)
+                if remaining_time <= 0:
+                    break
 
-            remaining_time = TELEMETRY_TIMEOUT - (time.time() - start_time)
-            if remaining_time <= 0:
-                self.__logger.warning("Timed out before receiving LOCAL_POSITION_NED", True)
-                return False, None
+                msg = self.__connection.recv_match(
+                    type=["ATTITUDE", "LOCAL_POSITION_NED"],
+                    blocking=True,
+                    timeout=remaining_time,
+                )
 
-            position_msg = self.__connection.recv_match(
-                type="LOCAL_POSITION_NED",
-                blocking=True,
-                timeout=remaining_time,
-            )
+                if msg is None:
+                    break
+
+                msg_type = msg.get_type()
+                if msg_type == "ATTITUDE":
+                    attitude_msg = msg
+                elif msg_type == "LOCAL_POSITION_NED":
+                    position_msg = msg
         # pylint: disable-next=broad-exception-caught
         except Exception as exception:
             self.__logger.error(f"Failed while receiving telemetry: {exception}", True)
             return False, None
 
-        if attitude_msg is None or attitude_msg.get_type() != "ATTITUDE":
+        if attitude_msg is None:
             self.__logger.warning("Did not receive ATTITUDE message in time", True)
             return False, None
 
-        if position_msg is None or position_msg.get_type() != "LOCAL_POSITION_NED":
+        if position_msg is None:
             self.__logger.warning("Did not receive LOCAL_POSITION_NED message in time", True)
             return False, None
 
